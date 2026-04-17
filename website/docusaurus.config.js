@@ -6,10 +6,10 @@ const config = {
   tagline: 'ドキュメントサイト',
   favicon: 'img/favicon.ico',
 
-  url: 'https://norifumi-okumura.github.io',
+  url: 'https://piggest.github.io',
   baseUrl: '/DocMDTest/',
 
-  organizationName: 'norifumi-okumura',
+  organizationName: 'piggest',
   projectName: 'DocMDTest',
   trailingSlash: false,
 
@@ -66,7 +66,7 @@ const config = {
         title: 'DocMDTest',
         items: [
           {
-            href: 'https://github.com/norifumi-okumura/DocMDTest',
+            href: 'https://github.com/piggest/DocMDTest',
             label: 'GitHub',
             position: 'right',
           },
