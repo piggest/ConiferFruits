@@ -28,6 +28,12 @@ const config = {
     locales: ['ja'],
   },
 
+  plugins: [
+    [require.resolve('./plugins/style-cascade'), { docsDir: '../docs' }],
+  ],
+
+  clientModules: ['./src/clientModules/applyStyleCascade.js'],
+
   presets: [
     [
       'classic',
