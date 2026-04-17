@@ -13,5 +13,5 @@ DocMDTestプロジェクトのドキュメントへようこそ。
 
 ## クイックリンク
 
-- [インストール](./getting-started/installation.md)
-- [設定](./getting-started/configuration.md)
+- [インストール](./はじめに/インストール.md)
+- [設定](./はじめに/設定.md)
