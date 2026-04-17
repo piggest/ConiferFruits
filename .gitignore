@@ -2,3 +2,4 @@ node_modules/
 website/build/
 website/.docusaurus/
 .DS_Store
+.superpowers/
