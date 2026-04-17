@@ -79,6 +79,17 @@ module.exports = function styleCascadePlugin(context, options) {
       fs.mkdirSync(staticOut, { recursive: true });
       const copiedCss = new Map(); // absCssPath -> servedFilename
 
+      // frontmatter の slug を取り出す（簡易パーサー、yaml は使わない）
+      function readSlug(absMdPath) {
+        try {
+          const text = fs.readFileSync(absMdPath, 'utf8');
+          const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+          if (!m) return null;
+          const sm = m[1].match(/^slug:\s*(.+)$/m);
+          return sm ? sm[1].trim().replace(/^['"]|['"]$/g, '') : null;
+        } catch { return null; }
+      }
+
       for (const md of mdFiles) {
         const cssAbs = resolveCss(md);
         if (!cssAbs) continue;
@@ -90,12 +101,37 @@ module.exports = function styleCascadePlugin(context, options) {
           fs.copyFileSync(cssAbs, path.join(staticOut, served));
           copiedCss.set(cssAbs, served);
         }
+        const cssUrl = baseUrl + 'styles-cascade/' + served;
+
         // MDファイルのルートURLを算出する（Docusaurusのroutepath規則に準拠：各セグメント先頭の `数字-` 接頭辞は除去される）
         const relMd = path.relative(docsDir, md).replace(/\.md$/, '').replace(/\\/g, '/');
         const stripped = relMd.split('/').map(seg => seg.replace(/^\d+-/, '')).join('/');
+
         const variants = new Set([baseUrl + relMd, baseUrl + stripped]);
+
+        // frontmatter slug があれば最優先で対応
+        const slug = readSlug(md);
+        if (slug) {
+          if (slug === '/') {
+            variants.add(baseUrl);
+            variants.add(baseUrl.replace(/\/$/, ''));
+          } else if (slug.startsWith('/')) {
+            variants.add(baseUrl.replace(/\/$/, '') + slug);
+          } else {
+            // 相対 slug は親ディレクトリ基準
+            const parentSeg = path.dirname(stripped);
+            variants.add(baseUrl + (parentSeg === '.' ? slug : parentSeg + '/' + slug));
+          }
+        }
+
+        // フォルダ名と同じファイル名の場合（カテゴリindex）はDocusaurusが重複セグメントを省略
+        const segments = stripped.split('/');
+        if (segments.length >= 2 && segments[segments.length - 1] === segments[segments.length - 2]) {
+          variants.add(baseUrl + segments.slice(0, -1).join('/'));
+        }
+
         for (const v of variants) {
-          map[v] = baseUrl + 'styles-cascade/' + served;
+          map[v] = cssUrl;
         }
       }
 
