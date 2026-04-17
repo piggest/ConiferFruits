@@ -1,6 +1,10 @@
-/* デフォルト全体テーマ：背景塗り（藍色 / ネイビー系） */
-/* docs/ ルートに配置。各フォルダ/ファイルにより限定的なCSSがあればそれが優先。 */
+/* ================================================================
+ * ConiferFruits デフォルト全体テーマ：藍色 / ネイビー系
+ * docs/ ルートに配置。各フォルダ/ファイルにより限定的なCSSがあれば
+ * それが優先される（カスケードCSSの最上位フォールバック）
+ * ================================================================ */
 
+/* === 見出し === */
 .theme-doc-markdown h1 {
   background: #1a3a5c;
   color: #fff;
@@ -17,6 +21,7 @@
   margin-top: 36px;
   font-size: 1.4em;
   border-radius: 4px;
+  position: relative;
 }
 
 .theme-doc-markdown h3 {
@@ -32,6 +37,23 @@
   left: 0;
 }
 
+/* h2/h3 hover で # アンカー表示 */
+.theme-doc-markdown h2:hover::after,
+.theme-doc-markdown h3:hover::after {
+  content: '#';
+  position: absolute;
+  left: -1em;
+  color: #8aa3c0;
+  font-weight: normal;
+}
+
+/* === テーブル === */
+.theme-doc-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+}
 .theme-doc-markdown table thead {
   background: #1a3a5c;
   color: #fff;
@@ -43,16 +65,35 @@
 .theme-doc-markdown table td {
   padding: 8px 12px;
   border-bottom: 1px solid #d8e0eb;
+  text-align: left;
 }
 
+/* === Callout / Admonition (blockquote variants) === */
 .theme-doc-markdown blockquote {
   background: #eef3f8;
   border-left: 6px solid #1a3a5c;
   padding: 12px 16px;
   color: #1a3a5c;
   border-radius: 0 4px 4px 0;
+  margin: 16px 0;
+}
+.theme-doc-markdown blockquote.warning {
+  border-color: #f57c00;
+  background: #fff3e0;
+  color: #e65100;
+}
+.theme-doc-markdown blockquote.danger {
+  border-color: #d32f2f;
+  background: #ffebee;
+  color: #b71c1c;
+}
+.theme-doc-markdown blockquote.tip {
+  border-color: #388e3c;
+  background: #e8f5e9;
+  color: #1b5e20;
 }
 
+/* === コード === */
 .theme-doc-markdown code {
   background: #eef3f8;
   color: #1a3a5c;
@@ -60,7 +101,98 @@
   border-radius: 3px;
   font-size: 0.9em;
 }
+.theme-doc-markdown pre {
+  border-radius: 6px;
+  border: 1px solid #1a1a1a;
+}
 .theme-doc-markdown pre code {
   background: transparent;
   color: inherit;
+  padding: 0;
+}
+
+/* === ステータスバッジ === */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+.badge-draft      { background: #eee;     color: #555; }
+.badge-review     { background: #fff3cd;  color: #856404; }
+.badge-approved   { background: #d4edda;  color: #155724; }
+.badge-deprecated { background: #f8d7da;  color: #721c24; }
+
+/* === キーボードショートカット === */
+.theme-doc-markdown kbd {
+  background: linear-gradient(180deg, #fafafa 0%, #e8e8e8 100%);
+  border: 1px solid #c0c0c0;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: 'SF Mono', 'Menlo', monospace;
+  font-size: 0.85em;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+  display: inline-block;
+}
+
+/* === ステップ番号付きリスト (ol.steps) === */
+.theme-doc-markdown ol.steps {
+  counter-reset: step;
+  list-style: none;
+  padding-left: 0;
+}
+.theme-doc-markdown ol.steps > li {
+  counter-increment: step;
+  padding-left: 44px;
+  position: relative;
+  margin: 14px 0;
+  min-height: 28px;
+}
+.theme-doc-markdown ol.steps > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  background: #2c5282;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 28px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* === 定義リスト === */
+.theme-doc-markdown dl {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 8px 16px;
+  margin: 16px 0;
+}
+.theme-doc-markdown dt {
+  font-weight: bold;
+  color: #2c5282;
+}
+.theme-doc-markdown dd { margin: 0; }
+
+/* === 引用カード === */
+.theme-doc-markdown .quote-card {
+  background: #f9f9f9;
+  border-left: 3px solid #ccc;
+  padding: 16px 20px;
+  font-style: italic;
+  margin: 16px 0;
+  border-radius: 0 4px 4px 0;
+}
+.theme-doc-markdown .quote-card cite {
+  display: block;
+  font-style: normal;
+  color: #666;
+  margin-top: 8px;
+  font-size: 0.9em;
 }
