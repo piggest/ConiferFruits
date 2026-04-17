@@ -37,6 +37,7 @@ const config = {
           path: '../docs',
           routeBasePath: '/',
           sidebarPath: './sidebars.js',
+          editUrl: 'https://github.com/piggest/DocMDTest/edit/main/',
         },
         blog: false,
         theme: {
