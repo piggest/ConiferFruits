@@ -17,16 +17,17 @@ export default function EditThisPage({ editUrl }) {
           <Translate
             id="theme.common.editThisPage.app"
             description="App edit link">
-            デスクトップアプリで編集
+            編集
           </Translate>
         </a>
       )}
       <a href={editUrl} target="_blank" rel="noreferrer noopener" className="theme-edit-this-page">
         <IconEdit />
+        {/* Docusaurus 既定のID (theme.common.editThisPage) は「このページを編集」という翻訳が効いてしまうため独自IDを使う */}
         <Translate
-          id="theme.common.editThisPage"
+          id="theme.common.editThisPage.github"
           description="GitHub edit link">
-          GitHub で編集
+          GitHubで編集
         </Translate>
       </a>
     </>
